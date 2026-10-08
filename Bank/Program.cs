@@ -33,6 +33,14 @@
 
             Console.WriteLine(interestEarn.ToString());
             Console.WriteLine(interestEarn.GetAccountHistory());
+
+            GiftCartAccount giftCart = new("Andrei", 1000m, 5000m);
+            giftCart.MakeDeposit(100m, DateTime.UtcNow, ";)");
+            giftCart.MakeWithdrawal(10m, DateTime.UtcNow, ";(");
+            giftCart.PerformMonthAndTransactions();
+
+            Console.WriteLine(giftCart);
+            Console.WriteLine(giftCart.GetAccountHistory());
         }
     }
 }
