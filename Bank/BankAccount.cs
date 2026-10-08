@@ -83,4 +83,30 @@ public class BankAccount
 
         return default;
     }
+
+    public string GetAccountHistory()
+    {
+        var report = new StringBuilder();
+
+        decimal balance = 0;
+        report.AppendLine("Data\t\tAmount\tBalance\tNote");
+        foreach (var item in _allTransactions)
+        {
+            balance += item.Amount;
+            report.AppendLine($"" +
+                $"{item.Date.ToShortDateString()}\t" +
+                $"{item.Amount}\t{balance}\t{item.Note}");
+        }
+        return report.ToString();
+    }
+    // virtual позволяет в дочернем классе предоставить другую реализацию
+    public virtual void PerformMonthAndTransactions()
+    {
+
+    }
+
+    public override string ToString()
+    {
+        return $"Type: {GetType().Name}\tOwner: {Owner}\tNumber of Account:{Number}";
+    }
 }
