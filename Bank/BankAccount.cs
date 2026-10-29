@@ -52,7 +52,15 @@ public class BankAccount
     /// Список всех транзакций для аккаунта
     /// </summary>
     private List<Transaction> _allTransactions = new List<Transaction>();
-
+    /// <summary>
+    /// Список всех аудитов для аккаунта
+    /// </summary>
+    private List<AuditLog> _allAuditLogs = new List<AuditLog>();
+    /// <summary>
+    /// Конструктор BankAccount с 2 параметрами
+    /// </summary>
+    /// <param name="owner"></param>
+    /// <param name="initialBalance"></param>
     /// <summary>
     /// Конструктор BankAccount с 2 параметрами
     /// </summary>
@@ -217,7 +225,29 @@ public class BankAccount
     {
         return $"Type: {GetType().Name}\tOwner: {Owner}\tNumber of Account:{Number}";
     }
-
+    /// <summary>
+    /// Метод перевода денег с одного аккаунта на другой
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public bool Transfer(decimal amount, BankAccount target)
+    {
+        if (this.Balance - amount < 0)
+        {
+            return false;
+        }
+        try
+        {
+            target.MakeDeposit(amount, DateTime.UtcNow, $"Transfer from account {this.Owner} to {target.Owner}");
+        }
+        catch
+        {
+            return false;
+        }
+        this.MakeWithdrawal(amount, DateTime.UtcNow, $"Transfer from your account to {target.Owner}");
+        return true;
+    }
     /// <summary>
     /// Метод определяющий статус клиента банка
     /// </summary>

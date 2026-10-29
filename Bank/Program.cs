@@ -63,6 +63,17 @@
             {
                 Console.WriteLine(bankAccount.GetAccountAudit());
             }
+
+            BankAccount test1 = new BankAccount("tester1", 100000);
+            BankAccount test2 = new BankAccount("tester2", 1000);
+
+            test1.Transfer(5000, test2);
+            Console.WriteLine(test1.GetAccountHistory());
+            Console.WriteLine(test2.GetAccountHistory());
+
+            test1.ChangeStatus(1);
+            test1.PerformMonthAndTransactions();
+            Console.WriteLine(test1.GetAccountHistory());
         }
     }
 }
