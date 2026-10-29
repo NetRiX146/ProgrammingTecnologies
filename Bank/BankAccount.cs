@@ -3,13 +3,33 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Bank;
-// Потомок класса object => можно переопределить виртуальные методы, находяящиеся в object
+
+// BankAccount - потомок класс object => можно переопределить 
+// виртуальные методы находящиеся в object
+/// <summary>
+/// Класс банка предопределяющий его работу
+/// </summary>
 public class BankAccount
 {
+    /// <summary>
+    /// Минимальный баланс
+    /// </summary>
     private readonly decimal _minimumBalance;
+    /// <summary>
+    /// Номер с которого начинается отсчёт id аккаунта
+    /// </summary>
     static private int s_accountNuberSeed = 1000000000;
+    /// <summary>
+    /// Номер задаваемый клиентом
+    /// </summary>
     public string Number { get; }
+    /// <summary>
+    /// Имя владельца счёта
+    /// </summary>
     public string Owner { get; private set; }
+    /// <summary>
+    /// Баланс аккаунта
+    /// </summary>
     public decimal Balance
     {
         get
@@ -24,12 +44,25 @@ public class BankAccount
         }
     }
 
+    /// <summary>
+    /// Список всех транзакций для аккаунта
+    /// </summary>
     private List<Transaction> _allTransactions = new List<Transaction>();
 
+    /// <summary>
+    /// Конструктор BankAccount с 2 параметрами
+    /// </summary>
+    /// <param name="owner"></param>
+    /// <param name="initialBalance"></param>
     public BankAccount(string name, decimal initialBalance) :
         this(name, initialBalance, 0)
     { }
-
+    /// <summary>
+    /// Конструктор класса банк c минимальным баланса
+    /// </summary>
+    /// <param name="owner">Имя владельца</param>
+    /// <param name="initialBalance">Начальный баланс</param>
+    /// <param name="minimumbalance">Минимальный баланс</param>
     public BankAccount(string name, decimal initialBalance, decimal minimumBalance)
     {
 
@@ -40,6 +73,14 @@ public class BankAccount
         Number = s_accountNuberSeed.ToString();
         s_accountNuberSeed++;
     }
+
+    /// <summary>
+    /// Метод позволяющий делать депозиты
+    /// </summary>
+    /// <param name="amount">сумма которая положится на счёт</param>
+    /// <param name="date">время операции</param>
+    /// <param name="note">комментарий к операции</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void MakeDeposit(decimal amount, DateTime date, string note)
     {
         if (amount <= 0)
@@ -51,6 +92,12 @@ public class BankAccount
         _allTransactions.Add(deposit);
     }
 
+    /// <summary>
+    /// Метод снятия денег с аккаунта
+    /// </summary>
+    /// <param name="amount">сумма которую нужно снять</param>
+    /// <param name="date"> время операции</param>
+    /// <param name="note">комментарий к операции</param>
     public void MakeWithdrawal(decimal amount, DateTime date, string note)
     {
         //if (amount <= 0)
@@ -74,6 +121,13 @@ public class BankAccount
         if (overdraftTransaction is not null) _allTransactions.Add(overdraftTransaction);
     }
 
+    /// <summary>
+    /// Метод проверки на лимит вывода средств
+    /// </summary>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException">
+    /// Бросается если оведрафт не возможен </exception>
     private Transaction? CheckWithdrawalLimit(bool v)
     {
         if (v)
@@ -84,6 +138,10 @@ public class BankAccount
         return default;
     }
 
+    /// <summary>
+    /// Метод предоставляющий информацию об аккаунта
+    /// </summary>
+    /// <returns></returns>
     public string GetAccountHistory()
     {
         var report = new StringBuilder();
@@ -100,11 +158,17 @@ public class BankAccount
         return report.ToString();
     }
     // virtual позволяет в дочернем классе предоставить другую реализацию
+    /// <summary>
+    /// Метод добавляющий проценты по счёту
+    /// </summary>
     public virtual void PerformMonthAndTransactions()
     {
 
     }
-
+    /// <summary>
+    /// Метод предоставляющий информацию о типе,владельце и номере аккаунта
+    /// </summary>
+    /// <returns></returns>
     public override string ToString()
     {
         return $"Type: {GetType().Name}\tOwner: {Owner}\tNumber of Account:{Number}";

@@ -41,6 +41,28 @@
 
             Console.WriteLine(giftCart);
             Console.WriteLine(giftCart.GetAccountHistory());
+
+            LineOfCreditAccount lineOfCredit = new LineOfCreditAccount("Ugagi", 0, 1000m);
+            lineOfCredit.MakeWithdrawal(500m, DateTime.UtcNow, "credit");
+
+            GiftCardAccount giftcard = new GiftCardAccount("Ugagi", 1000m, 5000m);
+
+            List<BankAccount> accounts = new List<BankAccount>();
+            accounts.Add(lineOfCredit);
+            accounts.Add(giftcard);
+            accounts.Add(account);
+            accounts.Add(interestEarning);
+
+            foreach (BankAccount bankAccount in accounts)
+            {
+                Console.WriteLine(bankAccount);
+                Console.WriteLine(bankAccount.GetAccountHistory());
+            }
+
+            foreach (BankAccount bankAccount in accounts)
+            {
+                Console.WriteLine(bankAccount.GetAccountAudit());
+            }
         }
     }
 }
