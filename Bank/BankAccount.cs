@@ -94,6 +94,8 @@ public class BankAccount
 
         var deposit = new Transaction(amount, date, note);
         _allTransactions.Add(deposit);
+        var audit = new AuditLog(s_accountNumberSeed, "MakeDeposit", amount, date);
+        _allAuditLogs.Add(audit);
     }
 
     /// <summary>
@@ -121,7 +123,8 @@ public class BankAccount
         Transaction? overdraftTransaction = CheckWithdrawalLimit(Balance - amount < _minimumBalance);
         Transaction? withdrawal = new(-amount, date, note);
         _allTransactions.Add(withdrawal);
-
+        AuditLog? withdrawalaudit = new AuditLog(s_accountNumberSeed, "MakeWithDrawal", amount, date);
+        _allAuditLogs.Add(withdrawalaudit);
         if (overdraftTransaction is not null) _allTransactions.Add(overdraftTransaction);
     }
 
@@ -161,6 +164,23 @@ public class BankAccount
         }
         return report.ToString();
     }
+
+    /// <summary>
+    /// Функция возвращащая все аудиты на аккаунте
+    /// </summary>
+    /// <returns></returns>
+    public string GetAccountAudit()
+    {
+        var audit = new StringBuilder();
+
+        audit.AppendLine("NumberAccount\tTypeOfOperation\tAmount\tDate");
+        foreach (var item in _allAuditLogs)
+        {
+            audit.AppendLine($"" + $"{item.NumberOfAccount}\t" + $"{item.TypeOfOperation}\t" + $"{item.Amount}\t" + $"{item.Date}");
+        }
+        return audit.ToString();
+    }
+
     // virtual позволяет в дочернем классе предоставить другую реализацию
     /// <summary>
     /// Метод добавляющий проценты по счёту
@@ -196,5 +216,20 @@ public class BankAccount
     public override string ToString()
     {
         return $"Type: {GetType().Name}\tOwner: {Owner}\tNumber of Account:{Number}";
+    }
+
+    /// <summary>
+    /// Метод определяющий статус клиента банка
+    /// </summary>
+    /// <param name="i"> один из статусов на выбор 0,1,2</param>
+    public void ChangeStatus(int i)
+    {
+        switch (i)
+        {
+            case (0): this.Status = "Regular"; break;
+            case (1): this.Status = "Premium"; break;
+            case (2): this.Status = "VIP"; break;
+            default: this.Status = Status; break;
+        }
     }
 }
