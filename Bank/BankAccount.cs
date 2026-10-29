@@ -43,6 +43,10 @@ public class BankAccount
             return balance;
         }
     }
+    /// <summary>
+    /// Статус клиента банка
+    /// </summary>
+    public string Status { get; private set; } = "Unknown";
 
     /// <summary>
     /// Список всех транзакций для аккаунта
@@ -163,7 +167,27 @@ public class BankAccount
     /// </summary>
     public virtual void PerformMonthAndTransactions()
     {
-
+        if (Status == "Regular")
+        {
+            MakeWithdrawal(50, DateTime.UtcNow, "regular month service");
+        }
+        if (Status == "Premium")
+        {
+            if (Balance > 10000m)
+            {
+                decimal monthpay = (Balance - 10000) * 0.01m;
+                MakeWithdrawal(monthpay, DateTime.UtcNow, "regular month service");
+            }
+        }
+        if (Status == "VIP")
+        {
+            if (Balance > 10000m)
+            {
+                decimal monthpay = (Balance - 10000) * 0.03m;
+                MakeWithdrawal(monthpay, DateTime.UtcNow, "regular month service");
+                MakeDeposit(monthpay * 0.05m, DateTime.UtcNow, "cashback");
+            }
+        }
     }
     /// <summary>
     /// Метод предоставляющий информацию о типе,владельце и номере аккаунта
