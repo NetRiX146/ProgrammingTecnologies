@@ -42,7 +42,7 @@
             Console.WriteLine(giftCart);
             Console.WriteLine(giftCart.GetAccountHistory());
 
-            LineOfCreditAccount lineOfCredit = new LineOfCreditAccount("Ugagi", 0, 1000m);
+            LineOfCreditAccount lineOfCredit = new LineOfCreditAccount("Ugagi", 1000m, 1000m);
             lineOfCredit.MakeWithdrawal(500m, DateTime.UtcNow, "credit");
 
             GiftCartAccount giftcard = new GiftCartAccount("Ugagi", 1000m, 5000m);
