@@ -18,7 +18,7 @@ public class BankAccount
     /// <summary>
     /// Номер с которого начинается отсчёт id аккаунта
     /// </summary>
-    static private int s_accountNuberSeed = 1000000000;
+    static private int s_accountNumberSeed = 1000000000;
     /// <summary>
     /// Номер задаваемый клиентом
     /// </summary>
@@ -82,8 +82,8 @@ public class BankAccount
         _minimumBalance = minimumBalance;
         if (initialBalance < 0) MakeDeposit(minimumBalance, DateTime.UtcNow, "Initial balance");
         MakeDeposit(initialBalance, DateTime.UtcNow, "Initial balance");
-        Number = s_accountNuberSeed.ToString();
-        s_accountNuberSeed++;
+        Number = s_accountNumberSeed.ToString();
+        s_accountNumberSeed++;
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ public class BankAccount
     /// <returns></returns>
     /// <exception cref="InvalidOperationException">
     /// Бросается если оведрафт не возможен </exception>
-    private Transaction? CheckWithdrawalLimit(bool v)
+    protected virtual Transaction? CheckWithdrawalLimit(bool v)
     {
         if (v)
         {

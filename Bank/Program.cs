@@ -45,13 +45,13 @@
             LineOfCreditAccount lineOfCredit = new LineOfCreditAccount("Ugagi", 0, 1000m);
             lineOfCredit.MakeWithdrawal(500m, DateTime.UtcNow, "credit");
 
-            GiftCardAccount giftcard = new GiftCardAccount("Ugagi", 1000m, 5000m);
+            GiftCartAccount giftcard = new GiftCartAccount("Ugagi", 1000m, 5000m);
 
             List<BankAccount> accounts = new List<BankAccount>();
             accounts.Add(lineOfCredit);
             accounts.Add(giftcard);
-            accounts.Add(account);
-            accounts.Add(interestEarning);
+            accounts.Add(account1);
+            accounts.Add(interestEarn);
 
             foreach (BankAccount bankAccount in accounts)
             {
