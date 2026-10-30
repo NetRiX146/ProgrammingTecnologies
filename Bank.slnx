@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="Bank/Bank.csproj" />
+  <Folder Name="/src/">
+    <Project Path="BankAccounts.Core/BankAccounts.Core.csproj" Id="cf66df99-2a3e-403a-8f2b-8a950e3cd522" />
+    <Project Path="BankAccounts.VisualConsole/BankAccounts.VisualConsole.csproj" Id="d3b7bafe-9683-408e-98e0-e7f789c8ff90" />
+  </Folder>
 </Solution>
